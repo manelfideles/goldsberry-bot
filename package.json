@@ -1,0 +1,25 @@
+{
+  "name": "goldsberry-bot",
+  "version": "1.0.0",
+  "description": "A Discord bot that returns team and player stats, as well as game scores. I plan to add historical data - like individual regular season/playoff awards and NBA titles -, and graphs/shot charts from players on every game within a 24-hour span.",
+  "main": "bot.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/manelfideles/goldsberry-bot.git"
+  },
+  "keywords": [
+    "sports",
+    "nba",
+    "stats",
+    "scores"
+  ],
+  "author": "Manuel Fideles",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/manelfideles/goldsberry-bot/issues"
+  },
+  "homepage": "https://github.com/manelfideles/goldsberry-bot#readme"
+}
