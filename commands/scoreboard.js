@@ -1,6 +1,13 @@
+/**
+ * Usage: !scoreboard [-q]
+ * Flags: 
+ *      > -q : Display gamescore in each quarter
+ */
+
 module.exports = {
     name: 'scoreboard',
-    description: 'Fetches latest scoreboard data within a 24-hour span',
+    description: 'Fetches latest scoreboard data within a 24-hour span. Score by quarters: !scoreboard -q',
+    usage: '!scoreboard [-q]',
     execute(message, args) {
         const fetch = require('node-fetch');
 
@@ -16,30 +23,37 @@ module.exports = {
 
         // Bot message fields
         let botReply = '';
-        let gameName = '📍 ';
-        let score = '🏀 ';
-        let live = '';
+        let gameName = '';
+        let score = '';
+        let extraInfo = '';
         let clock = '';
 
         // Requests JSON with scoreboard info
         fetch(url, { method: "Get" })
             .then(res => res.json())
             .then((json) => {
-                console.log("Got latest full-game scoreboard 🏀");
+                console.log("!scoreboard was called 🏀");
 
                 var gameArray = json.games;
                 gameArray.forEach((game) => {
+                    let scoreQuarters = '';
                     gameName = `${game.vTeam.triCode} @ ${game.hTeam.triCode}`
                     score = `${game.hTeam.triCode} ${game.hTeam.score} - ${game.vTeam.score} ${game.vTeam.triCode}`
                     clock = `${game.clock}`;
-                    if (game.isGameActivated)
-                        live = `🔴 LIVE : ${clock}\n`;
-                    else if (game.playoffs)
-                        live = `📈 ${game.playoffs.seriesSummaryText}\n`
-                    botReply += `\n📍${gameName} \n🏀${score} \n${live}`;
-                });
 
-                //console.log(botReply);
+                    if (game.isGameActivated)
+                        extraInfo = `🔴 LIVE : ${clock}\n`;
+                    else if (game.playoffs)
+                        extraInfo = `📈 ${game.playoffs.seriesSummaryText}\n`;
+
+                    if (args == '-q' || args == '-quarters') {
+                        const quarterEmojis = [':one:', ':two:', ':three:', ':four:'];
+                        for (var i = 0; i < game.hTeam.linescore.length; i++)
+                            scoreQuarters += `🇶${quarterEmojis[i]} ${game.hTeam.linescore[i].score} - ${game.vTeam.linescore[i].score}\n`;
+                    }
+
+                    botReply += `\n📍 ${gameName} \n${extraInfo}🏀 ${score}\n${scoreQuarters}`;
+                });
                 return message.reply(botReply);
             })
     }

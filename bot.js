@@ -1,10 +1,8 @@
-/*
-
-@author : Manuel Fideles
-@education : 3rd year CompSci student @ DEI-UC
-@github : https://github.com/manelfideles/goldsberry-bot
-@api : http://data.nba.net/
-
+/**
+ * @author : Manuel Fideles
+ * @education : 3rd year CompSci student @ DEI-UC
+ * @github : https://github.com/manelfideles/goldsberry-bot
+ * @api : http://data.nba.net/
 */
 
 // Imports and configs
@@ -12,7 +10,7 @@ const Discord = require('discord.js');
 const fs = require('fs');
 const dotenv = require('dotenv');
 const config = require('./config.json');
-const commandDir = fs.readdirSync('./commands')
+const commandDir = fs.readdirSync('./commands');
 
 // Setup
 dotenv.config();
@@ -23,11 +21,12 @@ client.login(config.token);
 client.on('ready', () => { console.log(`I'm alive! Logged in as ${client.user.tag} 🏀`); })
 
 
-/*
- Set a new item in the Collection
- With the key as the command name and
- the value as the exported module
-*/
+/**
+ * Set a new item in the Collection
+ * with the key as the command name and
+ * the value as the exported module 
+ */
+
 commandFiles = commandDir.filter(file => file.endsWith('.js'));
 for (const file of commandFiles) {
     const command = require(`./commands/${file}`);
@@ -39,14 +38,21 @@ client.on('message', message => {
     if (!message.content.startsWith(config.prefix) || message.author.bot) return;
 
     const args = message.content.slice(config.prefix.length).trim().split(/ +/);
-    const command = args.shift().toLowerCase();
-    console.log(`Command - '${command}'`);
-    console.log(`Args - '${args}'`);
+    const commandName = args.shift().toLowerCase();
+    /* console.log(`Command - '${commandName}'`);
+    console.log(`Args - '${args}'`); */
 
-    if (!client.commands.has(command)) return;
+    if (!client.commands.has(commandName)) return;
 
     try {
-        client.commands.get(command).execute(message, args);
+        const command = client.commands.get(commandName);
+        if (command.args && !args.length) {
+            return message.channel.send(
+                `⚠️ You didn't provide any arguments, ${message.author}!\n✅ Command !${commandName}'s usage: **${command.usage}**`
+            );
+        } else {
+            command.execute(message, args);
+        }
     } catch (error) {
         console.error(error);
         message.reply('There was an error trying to execute that command!');
