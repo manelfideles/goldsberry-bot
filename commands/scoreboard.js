@@ -33,7 +33,6 @@ module.exports = {
             .then(res => res.json())
             .then((json) => {
                 console.log("!scoreboard was called 🏀");
-
                 var gameArray = json.games;
                 gameArray.forEach((game) => {
                     let scoreQuarters = '';
