@@ -98,7 +98,7 @@ function fetchPlayerAverages(args, callback) {
     fetch(url, { method: "Get" })
         .then(res => res.json())
         .then((json) => {
-            let stats = json.league.standard.stats.regularSeason.season[0].total;
+            let stats = json.league.standard.stats.regularSeason.season[0].teams[0];
             let playerStats = [
                 `:bucket: ${stats.ppg} ppg\n`,
                 `🎬 ${stats.rpg} rpb\n`,
@@ -106,6 +106,9 @@ function fetchPlayerAverages(args, callback) {
                 `🕵️ ${stats.spg} spg\n`,
                 `✋ ${stats.bpg} bpg\n`,
                 `🔄 ${stats.topg} topg\n`,
+                `**FG%**: ${stats.fgp}%\n`,
+                `**3PT%**: ${stats.tpp}%\n`,
+                `**FT%**: ${stats.ftp}%\n`,
             ];
             args.splice(3, 3);
             args.push(playerStats);
@@ -165,7 +168,6 @@ function fetchTeamStats(args, callback) {
 }
 
 function sendTeamStats(args) {
-    console.log(args);
     [teamName, message, _, stats] = args;
     let botReply = `\n**${teamName}**'s season averages:\n`;
     for (let i = 0; i < stats.length; i++) botReply += stats[i];

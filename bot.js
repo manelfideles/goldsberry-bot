@@ -40,7 +40,7 @@ client.on('message', message => {
     const args = message.content.slice(config.prefix.length).trim().split(/ +/);
     const commandName = args.shift().toLowerCase();
     //console.log(`Command - '${commandName}'`);
-    console.log(`Args - '${args}'`);
+    //console.log(`Args - '${args}'`);
 
     if (!client.commands.has(commandName)) return;
 
