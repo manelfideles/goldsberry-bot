@@ -164,7 +164,7 @@ function fetchTeamStats(args, callback) {
                 }
                 else message.reply("There's no such team! Please rewrite its name or find a team that actually exists.");
             }
-            else message.reply('stats not available at the moment!');
+            else message.reply('team stats are not available at the moment!');
         })
         .catch(err => {
             console.log(`[fetchTeamStats] => ${err}`);

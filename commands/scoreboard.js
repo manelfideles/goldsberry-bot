@@ -34,6 +34,8 @@ module.exports = {
             .then((json) => {
                 console.log("!scoreboard was called 🏀");
                 var gameArray = json.games;
+                if (gameArray.length == 0)
+                    return message.reply('there are no games to display!');
                 gameArray.forEach((game) => {
                     let scoreQuarters = '';
                     gameName = `${game.vTeam.triCode} @ ${game.hTeam.triCode}`
@@ -53,6 +55,7 @@ module.exports = {
 
                     botReply += `\n📍 ${gameName} \n${extraInfo}🏀 ${score}\n${scoreQuarters}`;
                 });
+
                 return message.reply(botReply);
             })
     }
