@@ -1,16 +1,3 @@
-// check start year with calendar request -> "startDateCurrentSeason" field -> extract current season year
-
-// if -n (now):
-// 1 - make schedule request
-// 2 - json.find(games with today's date)
-// return games
-
-// if -t (team) ex: -t sixers:
-// 1 - make teams request -> extract team's tricode
-// 1 - json.find(games where "gameUrlCode" contains team's tricode && date >= today)
-
-// if -w (week) display games for the next 5 days
-
 const { GuildAuditLogsEntry } = require('discord.js');
 const fetch = require('node-fetch');
 
@@ -21,9 +8,12 @@ const usage = '!calendar -[nwt] <team name if -t>';
 
 function execute(message, args) {
     console.log('!calendar was called 🏀');
+    console.log('args: ', args);
 
     let flag = args[0];
-    let usedFlag = flag.match('/^-[nwt]{1}/');
+    console.log('flag: ', flag);
+    let usedFlag = flag.match(/^-[nwt]{1}/);
+    console.log('usedFlag: ', usedFlag);
     let team = args[1];
 
     if (usedFlag)

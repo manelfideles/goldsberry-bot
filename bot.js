@@ -48,7 +48,7 @@ client.on('message', message => {
         const command = client.commands.get(commandName);
         if (command.args && !args.length) {
             return message.channel.send(
-                `⚠️ You didn't provide any arguments, ${message.author}!\n✅ Command !${commandName}'s usage: **${command.usage}**`
+                `⚠️ You didn't provide any arguments, ${message.author}!\n✅ Command **!${commandName}'s** usage: **${command.usage}**\nDescription: ${command.description}`
             );
         } else {
             command.execute(message, args);
